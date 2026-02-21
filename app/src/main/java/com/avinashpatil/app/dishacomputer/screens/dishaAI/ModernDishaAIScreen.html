@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>DISHA AI Simplified Chat Interface</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3B82F6",
+                        "chat-bg": "#f8faff",
+                        "accent-blue": "#2563EB",
+                        "text-main": "#1F2937",
+                        "text-secondary": "#6B7280"
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        :root {
+            --bg-gradient: linear-gradient(135deg, #e0e7ff 0%, #ecfdf5 50%, #e0f2fe 100%);
+        }
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100dvh;
+        }
+        .mesh-gradient-light {
+            background-color: transparent;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(167, 139, 250, 0.2) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(52, 211, 153, 0.2) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.2) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(99, 102, 241, 0.1) 0px, transparent 50%);
+        }
+        .glass-card-light {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+        }
+        .user-bubble {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+        }
+        .pulse-indicator {
+            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+    <style>
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="text-text-main font-display">
+<div class="relative flex h-screen w-full flex-col overflow-hidden mesh-gradient-light">
+    <header class="sticky top-0 z-50 flex items-center glass-card-light px-6 py-4 justify-between border-b border-white/40">
+        <div class="flex items-center gap-3">
+            <div class="size-10 shrink-0 rounded-full border-2 border-primary/20 overflow-hidden bg-white p-1">
+                <div class="h-full w-full bg-center bg-no-repeat bg-cover rounded-full" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBi7ZHRPNrk-sl1kqwH-38DwoFih53Zn5h220wH94gPMX2-FtFL2nMVcl1CZnPMLgkMmEnpPGfKSKVtArWdP3kj23JREFo1lz4cREZcRRyLg729FmnPwpq9yJBFWs15fdc8GAPzwbDjPRTzJ6J-qSlXVrjZeZTxqfgqQX45gAtipEE3FQsYU9WYdsKzBtxCNgVR4O88YLjn5q-N67iUlMp6Ob6HLnrY-W8WMflrT-XqG0YYTQjZ3r7a5SO-9c0eGrmvOOntDSHqhaZ6");'></div>
+            </div>
+            <div>
+                <h2 class="text-gray-900 text-lg font-bold leading-tight tracking-tight">DISHA AI</h2>
+                <div class="flex items-center gap-1.5">
+                    <span class="size-2 rounded-full bg-green-500 pulse-indicator"></span>
+                    <p class="text-text-secondary text-[10px] font-bold uppercase tracking-widest">Active Now</p>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="flex-1 overflow-y-auto px-4 py-6 space-y-6 flex flex-col">
+        <div class="flex justify-center">
+            <span class="px-4 py-1 rounded-full glass-card-light text-[11px] font-bold text-gray-500 uppercase tracking-widest shadow-sm">Today</span>
+        </div>
+        <div class="flex items-end gap-3 max-w-[85%]">
+            <div class="size-8 shrink-0 rounded-full glass-card-light flex items-center justify-center overflow-hidden border border-white">
+                <div class="size-full bg-center bg-no-repeat bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBbZ9QfKC8mO0Hvc3kdagtmlNDLmVQXxlnO3SW6zKndqzYiPvOzuty1SFjvCby23HNg67J32aOgh3hVQD6-0s7RK6In6xodVluvNBfpSKxtdAOgC6bswOclNC9jJ_nEgj_vBhtCrTtlWnw0UvFut8Xfk_GV4zx0iS5z6qeiA40Ke4VXEpm6S1PhEy2nKw5t3G1aICVOnUiWQV3OFMDuzQ1CVPFEua3gcls0-5xKtmdO0HkUmCQIbwCGej5QFhO8da9hzuv31gR1Tocc");'></div>
+            </div>
+            <div class="flex flex-col gap-1.5 items-start">
+                <p class="text-text-secondary text-[11px] font-bold ml-1 uppercase">DISHA AI</p>
+                <div class="glass-card-light rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm">
+                    <p class="text-sm md:text-base font-normal leading-relaxed text-gray-800">
+                        Hello! I'm DISHA. How can I assist your journey today?
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="flex items-end gap-3 self-end flex-row-reverse max-w-[85%]">
+            <div class="size-8 shrink-0 rounded-full overflow-hidden border-2 border-white shadow-sm">
+                <div class="size-full bg-center bg-no-repeat bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC7aj0gC3ch10lNyY2nt17hkZ7SZ3x1hNalyMq4lwhOgzjbm7qFLpF5bUJ2iWw0hiq8zLduM3LxbMkMaz0fqxYt9n5fKKHFgLcCUD7gOoDgAT_2WrTh-wT_tZVZaXmA1h_ghJ48H_tV_sfxSiFargJRK3XHWXEoRZyr2mCpL6wWCuYzfCWjAv-F0SSrYJX75nC24U8YX0XI-L8tHn8_ZwfyZidUZ_zm-bmzBH11oOroBCtcWXSQs7aERexBSAqFygHGWbxk0RHNMAqU");'></div>
+            </div>
+            <div class="flex flex-col gap-1.5 items-end">
+                <p class="text-text-secondary text-[11px] font-bold mr-1 uppercase">You</p>
+                <div class="user-bubble rounded-2xl rounded-br-sm px-4 py-3">
+                    <p class="text-sm md:text-base font-normal leading-relaxed text-white">
+                        Can you help me analyze my latest project metrics? I'm worried about the user retention drop.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="flex items-end gap-3 max-w-[85%]">
+            <div class="size-8 shrink-0 rounded-full glass-card-light flex items-center justify-center overflow-hidden border border-white">
+                <div class="size-full bg-center bg-no-repeat bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAJxMvsxY5VkZor77aRCy4g5k4gq-_OhZB0aZuSuepYAU9ImVRY0sLr9O6RVpzcYNY4JloipKhieMfAPLDRYakLobWTfu_rIZvuDlVmTe45brpHp0VjGphpO8-ANQ4NjTW4J3Hk7BLtrTYWTUwGODjlmoqi6ddynxFgb3WaVTbqWqj4CQp5Ldt6mDpQIYHMbXmMNPJeRYbc0ad2U8LmPnFKn3tNilsOGj9pIDVVnbesZ_6NiW1xh3DzxfNaWW2r1a5GQctmy3cur2jL");'></div>
+            </div>
+            <div class="flex flex-col gap-1.5 items-start">
+                <p class="text-text-secondary text-[11px] font-bold ml-1 uppercase">DISHA AI</p>
+                <div class="glass-card-light rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm">
+                    <p class="text-sm md:text-base font-normal leading-relaxed text-gray-800">
+                        I'd be happy to help! Please describe the key performance indicators you'd like me to look at. I can cross-reference them with typical industry benchmarks for you.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="flex items-end gap-3">
+            <div class="size-8 shrink-0 rounded-full glass-card-light flex items-center justify-center overflow-hidden border border-white">
+                <div class="size-full bg-center bg-no-repeat bg-cover opacity-50" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD6pkw4rQEooUiwiCX8jzun-1dFyYE1QEt5ziDc42YG_-I6e5f-mnIB4a1zsHYBxfCG_J4fZHxPjwgrlK-b9EWeEh8KiTv3FnFZMGqAqR9zupLoZEWKoBe2Qv_cmmEWwLNtxod_9WIHFLQ07kdxyUicUrZKUSeZZBMd09gKUJc5wDZGmv6faWsYuVgMUo6MFHRSaQDRnrhGzoMLNTas0dS5limjbbXGwMwUU61gBQNm2LOEOTT0Dld_3LUb16K5f4rd7vkzV_w6ZDAk");'></div>
+            </div>
+            <div class="glass-card-light rounded-2xl px-4 py-2 flex items-center gap-1.5 shadow-sm">
+                <div class="size-1.5 bg-primary/40 rounded-full animate-bounce"></div>
+                <div class="size-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                <div class="size-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+            </div>
+        </div>
+    </main>
+    <footer class="p-4 bg-gradient-to-t from-white/60 to-transparent">
+        <div class="bg-white rounded-full p-2 flex items-center gap-2 max-w-4xl mx-auto shadow-xl shadow-gray-200/50 border border-white/50">
+            <div class="flex-1">
+                <input class="w-full bg-transparent border-none focus:ring-0 text-gray-800 placeholder:text-gray-400 text-sm md:text-base font-normal py-2 px-5" placeholder="Message DISHA..." type="text"/>
+            </div>
+            <div class="flex items-center">
+                <button class="flex size-10 items-center justify-center rounded-full bg-primary text-white shadow-lg shadow-primary/30 hover:brightness-110 active:scale-95 transition-all mr-1">
+                    <span class="material-symbols-outlined">arrow_upward</span>
+                </button>
+            </div>
+        </div>
+        <div class="h-6"></div>
+    </footer>
+</div>
+
+</body></html>

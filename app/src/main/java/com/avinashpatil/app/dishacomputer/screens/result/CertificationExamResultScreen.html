@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html class="dark" lang="mr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quiz Results - Detailed View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700;800&amp;family=Noto+Sans+Marathi:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f425af",
+                        "background-light": "#f8f5f7",
+                        "background-dark": "#1a0b15",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "Noto Sans Marathi", "sans-serif"],
+                        "marathi": ["Noto Sans Marathi", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body {
+            font-family: 'Noto Sans Marathi', 'Spline Sans', sans-serif;
+        }
+        .mesh-gradient {
+            background-color: #1a0b15;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(320, 89%, 55%, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(280, 80%, 40%, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, hsla(340, 90%, 50%, 0.12) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, hsla(260, 70%, 30%, 0.12) 0px, transparent 50%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-pill {
+            background: rgba(244, 37, 175, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(244, 37, 175, 0.2);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(244, 37, 175, 0.3);
+            border-radius: 10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark mesh-gradient min-h-screen flex items-center justify-center p-0 sm:p-4">
+<div class="relative w-full max-w-[400px] h-[100dvh] sm:h-[812px] flex flex-col overflow-hidden bg-transparent">
+<div class="flex items-center p-6 justify-between w-full shrink-0">
+<div class="text-white/80 p-2 rounded-full glass-card flex items-center justify-center cursor-pointer">
+<span class="material-symbols-outlined text-xl">close</span>
+</div>
+<h2 class="text-white text-lg font-bold tracking-tight font-display">Exam Complete!</h2>
+<div class="w-10"></div>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar px-6 space-y-6 pb-24">
+<div class="glass-card rounded-xl p-6 flex flex-col items-center text-center shadow-2xl">
+<div class="relative flex items-center justify-center mb-6">
+<div class="w-32 h-32 rounded-full border-4 border-primary/20 flex items-center justify-center shadow-[0_0_30px_rgba(244,37,175,0.15)]">
+<div class="absolute inset-0 rounded-full border-[3px] border-primary border-t-transparent"></div>
+<div class="flex flex-col items-center">
+<h1 class="text-white text-[32px] font-black leading-none font-display">90<span class="text-primary text-xl font-bold">/100</span></h1>
+</div>
+</div>
+</div>
+<h2 class="text-white text-xl font-bold mb-2 font-marathi">अभिनंदन!</h2>
+<p class="text-white/60 text-sm font-medium leading-relaxed font-marathi">
+                    तुम्ही ही परीक्षा यशस्वीरीत्या पूर्ण केली आहे.
+                </p>
+<div class="grid grid-cols-3 gap-2 w-full mt-6">
+<div class="glass-pill rounded-lg p-2 flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-[#0bda87] mb-1 text-sm">check_circle</span>
+<p class="text-white/50 text-[8px] uppercase font-bold tracking-widest">Correct</p>
+<p class="text-white text-sm font-bold">18</p>
+</div>
+<div class="glass-pill rounded-lg p-2 flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-[#fa7938] mb-1 text-sm">cancel</span>
+<p class="text-white/50 text-[8px] uppercase font-bold tracking-widest">Wrong</p>
+<p class="text-white text-sm font-bold">02</p>
+</div>
+<div class="glass-pill rounded-lg p-2 flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-primary mb-1 text-sm">target</span>
+<p class="text-white/50 text-[8px] uppercase font-bold tracking-widest">Accuracy</p>
+<p class="text-white text-sm font-bold">90%</p>
+</div>
+</div>
+</div>
+<div class="glass-card rounded-xl p-5 space-y-4">
+<div class="flex items-start justify-between gap-3">
+<div>
+<p class="text-primary text-[10px] uppercase font-bold tracking-widest mb-1">Exam Title</p>
+<h3 class="text-white text-lg font-bold font-marathi leading-tight">सामान्य विज्ञान सराव परीक्षा - १</h3>
+<p class="text-white/40 text-xs mt-0.5">General Science Mock Test - 01</p>
+</div>
+<span class="material-symbols-outlined text-white/20">info</span>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/5">
+<div>
+<p class="text-white/40 text-[9px] uppercase font-bold mb-1">Duration</p>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">timer</span>
+<span class="text-white text-sm font-semibold">60 Minutes</span>
+</div>
+</div>
+<div>
+<p class="text-white/40 text-[9px] uppercase font-bold mb-1">Schedule</p>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">calendar_today</span>
+<span class="text-white text-sm font-semibold">24 Oct 2023</span>
+</div>
+<span class="text-white/40 text-[10px] ml-6">10:30 AM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<h3 class="text-white/80 text-sm font-bold uppercase tracking-widest pl-1">Review Questions</h3>
+<div class="glass-card rounded-xl overflow-hidden">
+<div class="p-4 border-b border-white/5 flex justify-between items-center bg-white/5">
+<span class="bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded">Q #1</span>
+<span class="text-[#0bda87] text-[10px] font-bold">+2 Marks</span>
+</div>
+<div class="p-4 space-y-4">
+<div class="space-y-2">
+<p class="text-white font-marathi text-base leading-relaxed">पाण्याचा उत्कलन बिंदू किती आहे?</p>
+<p class="text-white/50 text-xs italic">What is the boiling point of water?</p>
+</div>
+<div class="grid grid-cols-1 gap-2">
+<div class="flex items-center gap-3 p-3 rounded-lg border border-[#0bda87]/40 bg-[#0bda87]/10">
+<span class="text-xs font-bold text-white/40">A</span>
+<div class="flex-1">
+<p class="text-white text-sm font-marathi">१००° सेल्सिअस</p>
+<p class="text-white/40 text-[10px]">100° Celsius</p>
+</div>
+<span class="material-symbols-outlined text-[#0bda87] text-sm">check_circle</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-white/5">
+<span class="text-xs font-bold text-white/40">B</span>
+<div class="flex-1">
+<p class="text-white text-sm font-marathi">५०° सेल्सिअस</p>
+<p class="text-white/40 text-[10px]">50° Celsius</p>
+</div>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-white/5">
+<span class="text-xs font-bold text-white/40">C</span>
+<div class="flex-1">
+<p class="text-white text-sm font-marathi">०° सेल्सिअस</p>
+<p class="text-white/40 text-[10px]">0° Celsius</p>
+</div>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-white/5">
+<span class="text-xs font-bold text-white/40">D</span>
+<div class="flex-1">
+<p class="text-white text-sm font-marathi">२००° सेल्सिअस</p>
+<p class="text-white/40 text-[10px]">200° Celsius</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-card rounded-xl overflow-hidden">
+<div class="p-4 border-b border-white/5 flex justify-between items-center bg-white/5">
+<span class="bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded">Q #2</span>
+<span class="text-[#fa7938] text-[10px] font-bold">0 Marks</span>
+</div>
+<div class="p-4 space-y-4">
+<div class="space-y-2">
+<p class="text-white font-marathi text-base leading-relaxed">मानवी शरीरातील सर्वात मोठे हाड कोणते?</p>
+<p class="text-white/50 text-xs italic">Which is the largest bone in the human body?</p>
+</div>
+<div class="grid grid-cols-1 gap-2">
+<div class="flex items-center gap-3 p-3 rounded-lg border border-[#fa7938]/40 bg-[#fa7938]/10">
+<span class="text-xs font-bold text-white/40">A</span>
+<div class="flex-1">
+<p class="text-white text-sm font-marathi">स्टेपीज</p>
+<p class="text-white/40 text-[10px]">Stapes</p>
+</div>
+<span class="material-symbols-outlined text-[#fa7938] text-sm">cancel</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg border border-[#0bda87]/40 bg-white/5">
+<span class="text-xs font-bold text-white/40">B</span>
+<div class="flex-1">
+<p class="text-white text-sm font-marathi">फिमर</p>
+<p class="text-white/40 text-[10px]">Femur</p>
+</div>
+<span class="text-[#0bda87] text-[10px] font-bold">CORRECT</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-white/5">
+<span class="text-xs font-bold text-white/40">C</span>
+<div class="flex-1">
+<p class="text-white text-sm font-marathi">ह्युमेरस</p>
+<p class="text-white/40 text-[10px]">Humerus</p>
+</div>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-white/5">
+<span class="text-xs font-bold text-white/40">D</span>
+<div class="flex-1">
+<p class="text-white text-sm font-marathi">तिबिया</p>
+<p class="text-white/40 text-[10px]">Tibia</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background-dark via-background-dark to-transparent pt-12 shrink-0">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-full shadow-[0_8px_32px_rgba(244,37,175,0.35)] active:scale-95 transition-all flex items-center justify-center gap-3">
+<span class="material-symbols-outlined">replay</span>
+<span class="font-marathi tracking-wide">Retry</span>
+</button>
+</div>
+</div>
+
+</body></html>

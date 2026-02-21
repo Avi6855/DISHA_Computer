@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Modern Student Details (Simplified)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#6366f1",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
+                    },
+                    fontFamily: {
+                        display: ["Plus Jakarta Sans", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1.25rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style type="text/tailwindcss">
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        body {
+            min-height: 100dvh;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-b border-slate-200 dark:border-slate-800 px-4 h-16 flex items-center justify-center">
+<div class="absolute left-4">
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-rounded block">arrow_back</span>
+</button>
+</div>
+<h1 class="text-lg font-bold tracking-tight">STUDENT DETAILS</h1>
+</header>
+<main class="flex-1 overflow-y-auto p-4 space-y-4">
+<div class="relative overflow-hidden bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl p-6 text-white shadow-xl shadow-indigo-200 dark:shadow-none">
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-4">
+<div class="p-2 bg-white/20 rounded-xl">
+<span class="material-symbols-rounded">person</span>
+</div>
+<h2 class="font-semibold text-lg">Student Information</h2>
+</div>
+<div class="space-y-4">
+<div>
+<p class="text-white/70 text-sm font-medium">Student Name</p>
+<p class="text-xl font-bold">Anirudha Patil</p>
+</div>
+<div>
+<p class="text-white/70 text-sm font-medium">Email Address</p>
+<p class="font-medium">anirudhapatil6855@gmail.com</p>
+</div>
+</div>
+</div>
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full"></div>
+</div>
+<div class="relative overflow-hidden bg-gradient-to-br from-emerald-400 to-teal-600 rounded-3xl p-6 text-white shadow-xl shadow-emerald-100 dark:shadow-none">
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-4">
+<div class="p-2 bg-white/20 rounded-xl">
+<span class="material-symbols-rounded">school</span>
+</div>
+<h2 class="font-semibold text-lg">Selected Course</h2>
+</div>
+<div>
+<p class="text-white/70 text-sm font-medium">Active Courses</p>
+<p class="text-xl font-bold">Full Stack Web Development</p>
+</div>
+</div>
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
+</div>
+<div class="relative overflow-hidden bg-gradient-to-br from-orange-400 to-rose-500 rounded-3xl p-6 text-white shadow-xl shadow-orange-100 dark:shadow-none">
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-4">
+<div class="p-2 bg-white/20 rounded-xl">
+<span class="material-symbols-rounded">groups</span>
+</div>
+<h2 class="font-semibold text-lg">Selected Batch</h2>
+</div>
+<div>
+<p class="text-white/70 text-sm font-medium">Current Batch ID</p>
+<p class="text-xl font-bold tracking-wider">JAVA-B001</p>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-700">
+<div class="flex items-center gap-3 mb-6">
+<div class="p-2 bg-primary/10 dark:bg-primary/20 text-primary rounded-xl">
+<span class="material-symbols-rounded">account_balance_wallet</span>
+</div>
+<h2 class="font-bold text-lg">Payment Details</h2>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center pb-3 border-b border-slate-50 dark:border-slate-700/50">
+<span class="text-slate-500 dark:text-slate-400 font-medium">Total Price</span>
+<span class="font-bold text-slate-900 dark:text-white">₹0.00</span>
+</div>
+<div class="flex justify-between items-center pb-3 border-b border-slate-50 dark:border-slate-700/50">
+<span class="text-slate-500 dark:text-slate-400 font-medium">Given Price</span>
+<span class="font-bold text-emerald-500">₹777.00</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-slate-500 dark:text-slate-400 font-medium">Remaining Balance</span>
+<div class="text-right">
+<span class="font-bold text-rose-500 text-lg">₹-777.00</span>
+<p class="text-[10px] text-rose-400 uppercase tracking-wider font-bold">Credit Balance</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+</body></html>

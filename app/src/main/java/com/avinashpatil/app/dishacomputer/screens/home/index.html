@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DISHA Home Screen - Cleaned Layout</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1A1A1A",
+                        secondary: "#10B981",
+                        accent: "#6366F1",
+                        "background-light": "#f7f7f7",
+                        "background-dark": "#191919"
+                    },
+                    fontFamily: {
+                        display: "Spline Sans"
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                        lg: "2rem",
+                        xl: "3rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                font-family: 'Spline Sans', sans-serif;
+                -webkit-tap-highlight-color: transparent;
+            }
+        }
+        .mesh-gradient {
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+        }
+        .dark .mesh-gradient {
+            background-color: #0f172a;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0, transparent 50%), 
+                radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.1) 0, transparent 50%);
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .dark .glass {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="max-w-md mx-auto min-h-screen flex flex-col relative overflow-hidden pb-10">
+<header class="px-6 pt-10 pb-4">
+<div class="flex flex-col mb-2">
+<h1 class="text-3xl font-extrabold tracking-tight">Hello, Learner!</h1>
+<p class="text-slate-500 dark:text-slate-400 font-medium">Welcome to DISHA Computer Education</p>
+</div>
+</header>
+<div class="px-6 py-2">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-icons-round text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+</div>
+<input class="block w-full pl-11 pr-4 py-4 rounded-2xl bg-white dark:bg-slate-800 border-2 border-transparent focus:border-primary focus:ring-0 shadow-sm transition-all text-sm font-medium" placeholder="Search courses..." type="text"/>
+</div>
+</div>
+<section class="mt-8 px-6">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-xl font-bold">My Enrolled Courses</h2>
+<button class="text-primary font-semibold text-sm">See All</button>
+</div>
+<div class="relative overflow-hidden rounded-3xl p-6 bg-gradient-to-br from-emerald-400 to-teal-600 text-white shadow-xl shadow-emerald-500/20">
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-white/20 backdrop-blur-md rounded-2xl">
+<span class="material-icons-round text-3xl">school</span>
+</div>
+<span class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">In Progress</span>
+</div>
+<h3 class="text-2xl font-bold mb-1">Java Development</h3>
+<p class="text-emerald-50/80 text-sm mb-6 font-medium">Mastering Object Oriented Programming</p>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-white/10 backdrop-blur-sm rounded-xl p-3">
+<p class="text-[10px] uppercase opacity-70 font-bold mb-0.5">Batch</p>
+<p class="font-semibold text-sm">JAVA-B001</p>
+</div>
+<div class="bg-white/10 backdrop-blur-sm rounded-xl p-3">
+<p class="text-[10px] uppercase opacity-70 font-bold mb-0.5">Time</p>
+<p class="font-semibold text-sm">10:00 AM</p>
+</div>
+</div>
+</div>
+</section>
+<section class="mt-8 px-6 flex-1">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-xl font-bold">All Available Courses</h2>
+<span class="material-icons-round text-slate-400">filter_list</span>
+</div>
+<div class="space-y-4">
+<div class="glass flex items-center p-4 rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
+<div class="w-14 h-14 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+<span class="material-icons-round text-3xl">computer</span>
+</div>
+<div class="ml-4 flex-1">
+<h4 class="font-bold text-slate-800 dark:text-slate-100">MSCIT</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Core Computing Skills</p>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white transition-all">
+<span class="material-icons-round">chevron_right</span>
+</button>
+</div>
+<div class="glass flex items-center p-4 rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
+<div class="w-14 h-14 bg-amber-100 dark:bg-amber-900/30 rounded-xl flex items-center justify-center text-amber-600 dark:text-amber-400">
+<span class="material-icons-round text-3xl">terminal</span>
+</div>
+<div class="ml-4 flex-1">
+<h4 class="font-bold text-slate-800 dark:text-slate-100">Python Pro</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Data Science &amp; Backend</p>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white transition-all">
+<span class="material-icons-round">chevron_right</span>
+</button>
+</div>
+<div class="glass flex items-center p-4 rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
+<div class="w-14 h-14 bg-pink-100 dark:bg-pink-900/30 rounded-xl flex items-center justify-center text-pink-600 dark:text-pink-400">
+<span class="material-icons-round text-3xl">palette</span>
+</div>
+<div class="ml-4 flex-1">
+<h4 class="font-bold text-slate-800 dark:text-slate-100">UI/UX Design</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Design Systems &amp; Figma</p>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white transition-all">
+<span class="material-icons-round">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<div class="mt-auto mb-2 flex justify-center">
+<div class="w-32 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-full"></div>
+</div>
+</div>
+
+</body></html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Clean Minimalist Exam Dashboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#6366f1",
+                        accent: "#f43f5e",
+                        "background-light": "#FDFCFE",
+                        "background-dark": "#0B0E14",
+                    },
+                    fontFamily: {
+                        sans: ["'Plus Jakarta Sans'", "sans-serif"],
+                    },
+                    borderRadius: {
+                        '3xl': "1.5rem",
+                        '4xl': "2rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style type="text/tailwindcss">
+        :root {
+            --mesh-indigo: radial-gradient(at 0% 0%, #6366f1 0, transparent 50%), radial-gradient(at 100% 100%, #a855f7 0, transparent 50%);
+            --mesh-green: radial-gradient(at 0% 0%, #10b981 0, transparent 50%), radial-gradient(at 100% 100%, #06b6d4 0, transparent 50%);
+            --mesh-orange: radial-gradient(at 0% 0%, #f97316 0, transparent 50%), radial-gradient(at 100% 100%, #ef4444 0, transparent 50%);
+            --mesh-card: radial-gradient(at 0% 0%, rgba(255,255,255,0.4) 0, transparent 60%), radial-gradient(at 100% 100%, rgba(255,255,255,0.2) 0, transparent 60%);
+        }
+        body {
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(244, 63, 94, 0.08) 0%, transparent 40%);
+        }
+        .dark body {
+            background-color: #0B0E14;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(244, 63, 94, 0.1) 0%, transparent 40%);
+        }
+        .mesh-vibrant-indigo {
+            background: #6366f1;
+            background-image: var(--mesh-indigo);
+        }
+        .mesh-vibrant-green {
+            background: #10b981;
+            background-image: var(--mesh-green);
+        }
+        .mesh-vibrant-orange {
+            background: #f97316;
+            background-image: var(--mesh-orange);
+        }
+        .glass-element {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .dark .glass-element {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background-image: var(--mesh-card);
+        }
+        .neo-shadow {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), inset 0 -4px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-sans text-slate-900 dark:text-slate-100 min-h-screen pb-12">
+<header class="px-6 pt-14 pb-6 sticky top-0 z-30 glass-element border-b-0">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<button class="w-12 h-12 flex items-center justify-center rounded-2xl glass-element shadow-sm active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-slate-700 dark:text-slate-200">chevron_left</span>
+</button>
+<h1 class="text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-500 dark:from-white dark:to-slate-400">Exams</h1>
+</div>
+<button class="w-12 h-12 glass-element rounded-2xl flex items-center justify-center active:scale-95 transition-transform" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined text-slate-700 dark:text-yellow-400">dark_mode</span>
+</button>
+</div>
+</header>
+<main class="px-6 space-y-10 mt-6">
+<section>
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-xl font-extrabold tracking-tight">My Enrolled Courses Exams</h2>
+<button class="text-primary font-bold text-sm">View all</button>
+</div>
+<div class="grid grid-cols-2 gap-5">
+<div class="mesh-vibrant-green rounded-4xl p-6 text-white neo-shadow transform transition active:scale-95 flex flex-col justify-between h-48 relative overflow-hidden">
+<div class="absolute -top-4 -right-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
+<div class="glass-card w-12 h-12 rounded-2xl flex items-center justify-center relative z-10">
+<span class="material-symbols-outlined text-2xl">assignment</span>
+</div>
+<div class="relative z-10">
+<h3 class="font-extrabold text-lg leading-tight">Practice Exam</h3>
+<p class="text-green-50/80 text-xs font-medium mt-1">25 Questions</p>
+</div>
+</div>
+<div class="mesh-vibrant-orange rounded-4xl p-6 text-white neo-shadow transform transition active:scale-95 flex flex-col justify-between h-48 relative overflow-hidden">
+<div class="absolute -bottom-4 -left-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
+<div class="glass-card w-12 h-12 rounded-2xl flex items-center justify-center relative z-10">
+<span class="material-symbols-outlined text-2xl">workspace_premium</span>
+</div>
+<div class="relative z-10">
+<h3 class="font-extrabold text-lg leading-tight">Certification Exam</h3>
+<p class="text-orange-50/80 text-xs font-medium mt-1">100 Questions</p>
+</div>
+</div>
+</div>
+</section>
+<section>
+<h2 class="text-xl font-extrabold mb-6 tracking-tight">Upcoming Exams</h2>
+<div class="mesh-vibrant-indigo rounded-4xl p-8 text-white neo-shadow relative overflow-hidden group">
+<div class="flex items-start gap-4 mb-8">
+<div class="glass-card w-14 h-14 rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">terminal</span>
+</div>
+<div>
+<h3 class="text-2xl font-black mb-1">Java Basics Test</h3>
+<div class="flex items-center gap-2 text-indigo-100/90 text-sm font-semibold">
+<span class="material-symbols-outlined text-sm">event</span>
+                            25-02-2026
+                        </div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="glass-card rounded-3xl p-4 flex flex-col gap-1">
+<span class="text-indigo-100/60 text-[10px] font-bold uppercase tracking-wider">Start Time</span>
+<span class="text-lg font-bold tracking-tight">10:30:00 AM</span>
+</div>
+<div class="glass-card rounded-3xl p-4 flex flex-col gap-1">
+<span class="text-indigo-100/60 text-[10px] font-bold uppercase tracking-wider">Duration</span>
+<span class="text-lg font-bold tracking-tight">60 mins</span>
+</div>
+</div>
+<div class="mt-6 flex items-center gap-3 bg-black/10 backdrop-blur-md rounded-2xl p-4 border border-white/10">
+<span class="material-symbols-outlined text-rose-300">warning</span>
+<span class="text-xs font-bold text-rose-100 uppercase tracking-tight">Mandatory Attendance</span>
+</div>
+</div>
+</section>
+</main>
+
+</body></html>
