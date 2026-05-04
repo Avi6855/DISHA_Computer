@@ -13,7 +13,6 @@ import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.*
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.runtime.*
@@ -35,9 +34,8 @@ import android.media.AudioManager
 import android.media.ToneGenerator
 import com.avinashpatil.app.dishacomputer.data.model.Question
 import com.avinashpatil.app.dishacomputer.data.model.QuestionType
-import com.avinashpatil.app.dishacomputer.components.CenteredErrorDisplay
-
 import com.avinashpatil.app.dishacomputer.ui.theme.*
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,6 +60,14 @@ fun PracticeQuizScreen(
     var submitError by remember { mutableStateOf<String?>(null) }
     var showExitDialog by remember { mutableStateOf(false) }
 
+    val effectiveLimit = remember(source) {
+        if (source.uppercase() == "EXAM") 50 else 25
+    }
+
+    var forceSubmitSecondsLeft by remember { mutableIntStateOf(30) }
+    var forceSubmitInitialized by remember { mutableStateOf(false) }
+    var isFinishing by remember { mutableStateOf(false) }
+
     BackHandler {
         showExitDialog = true
     }
@@ -69,9 +75,9 @@ fun PracticeQuizScreen(
     // Load quiz when screen is first displayed
     LaunchedEffect(courseId, topicId) {
         if (topicId != null) {
-            viewModel.loadQuizByTopic(topicId, limit)
+            viewModel.loadQuizByTopic(topicId, effectiveLimit)
         } else {
-            viewModel.loadQuiz(courseId, limit)
+            viewModel.loadQuiz(courseId, effectiveLimit)
         }
     }
 
@@ -81,6 +87,98 @@ fun PracticeQuizScreen(
             is QuizUiState.Loading -> println("QuizUiState: Loading")
             is QuizUiState.Error -> println("QuizUiState: Error - ${(uiState as QuizUiState.Error).message}")
             is QuizUiState.Success -> println("QuizUiState: Success - ${(uiState as QuizUiState.Success).questions.size} questions loaded")
+        }
+    }
+
+    val finishQuiz = finish@{
+        if (isFinishing) return@finish
+        val success = uiState as? QuizUiState.Success ?: return@finish
+        val questions = success.questions
+        if (questions.isEmpty()) return@finish
+
+        isFinishing = true
+        isSubmitting = true
+
+        val answers = viewModel.answersByQuestionIndex.value
+        var correct = 0
+        var wrong = 0
+        var skipped = 0
+
+        questions.forEachIndexed { index, question ->
+            val answerIdx = answers[index]
+            if (answerIdx == null || answerIdx !in 0..3) {
+                skipped++
+            } else if (answerIdx == question.correctOptionIndex) {
+                correct++
+            } else {
+                wrong++
+            }
+        }
+
+        val score = correct
+        val total = questions.size
+        val validTopicId = topicId ?: "unknown"
+
+        navController.navigate(
+            "${Screen.PracticeExamResult.route}/$score/$total/$correct/$wrong/$skipped/$validTopicId?source=$source"
+        ) {
+            popUpTo(Screen.PracticeQuiz.route) { inclusive = true }
+        }
+    }
+
+    LaunchedEffect(uiState) {
+        if (uiState !is QuizUiState.Success) {
+            forceSubmitSecondsLeft = 30
+            forceSubmitInitialized = false
+            isFinishing = false
+        }
+    }
+
+    LaunchedEffect(uiState, currentQuestionIndex, isPaused, showExitDialog, isFinishing) {
+        val success = uiState as? QuizUiState.Success ?: return@LaunchedEffect
+        val questions = success.questions
+        if (questions.isEmpty()) return@LaunchedEffect
+
+        val lastIndex = minOf(effectiveLimit, questions.size) - 1
+        if (lastIndex < 0) return@LaunchedEffect
+
+        // Guard: if ViewModel timer advances past last question, auto-submit to avoid blank screen.
+        if (currentQuestionIndex > lastIndex && !isFinishing) {
+            finishQuiz()
+            return@LaunchedEffect
+        }
+
+        val onLastQuestion = currentQuestionIndex == lastIndex
+        if (!onLastQuestion || isPaused || showExitDialog || isFinishing) {
+            return@LaunchedEffect
+        }
+
+        // Force-submit countdown on the last question. Cancels automatically on recomposition via LaunchedEffect keys.
+        if (!forceSubmitInitialized) {
+            forceSubmitSecondsLeft = 30
+            forceSubmitInitialized = true
+        }
+
+        while (forceSubmitSecondsLeft > 0 && !isPaused && !showExitDialog && !isFinishing) {
+            delay(1000)
+            forceSubmitSecondsLeft -= 1
+        }
+
+        if (forceSubmitSecondsLeft <= 0 && !isFinishing && !isPaused && !showExitDialog) {
+            finishQuiz()
+        }
+    }
+
+    LaunchedEffect(uiState, currentQuestionIndex) {
+        val success = uiState as? QuizUiState.Success ?: return@LaunchedEffect
+        val questions = success.questions
+        if (questions.isEmpty()) return@LaunchedEffect
+
+        val lastIndex = minOf(effectiveLimit, questions.size) - 1
+        val onLastQuestion = currentQuestionIndex == lastIndex
+        if (!onLastQuestion) {
+            forceSubmitSecondsLeft = 30
+            forceSubmitInitialized = false
         }
     }
 
@@ -94,52 +192,44 @@ fun PracticeQuizScreen(
         isSubmitting = isSubmitting,
         submitError = submitError,
         showExitDialog = showExitDialog,
+        forceSubmitSecondsLeft = forceSubmitSecondsLeft,
         onOptionSelected = { viewModel.selectAnswer(it) },
         onPreviousQuestion = { viewModel.goToPreviousQuestion() },
-        onNextQuestion = { viewModel.goToNextQuestion() },
+        onNextQuestion = next@{
+            val success = uiState as? QuizUiState.Success
+            if (success == null || isFinishing) return@next
+            val lastIndex = minOf(effectiveLimit, success.questions.size) - 1
+            if (currentQuestionIndex >= lastIndex) {
+                finishQuiz()
+            } else {
+                viewModel.goToNextQuestion()
+            }
+        },
         onTogglePause = { viewModel.togglePause() },
         onFinishQuiz = {
-            if (uiState is QuizUiState.Success) {
-                val questions = (uiState as QuizUiState.Success).questions
-                // Calculate results locally
-                val answers = viewModel.answersByQuestionIndex.value
-                var correct = 0
-                var wrong = 0
-                var skipped = 0
-                
-                questions.forEachIndexed { index, question ->
-                    val answerIdx = answers[index]
-                    if (answerIdx == null || answerIdx !in 0..3) {
-                        skipped++
-                    } else if (answerIdx == question.correctOptionIndex) {
-                        correct++
-                    } else {
-                        wrong++
-                    }
-                }
-                
-                val score = correct
-                val total = questions.size
-                val validTopicId = topicId ?: "unknown"
-
-                navController.navigate(
-                    "${Screen.PracticeExamResult.route}/$score/$total/$correct/$wrong/$skipped/$validTopicId?source=$source"
-                ) {
-                    popUpTo(Screen.PracticeQuiz.route) { inclusive = true }
-                }
+            if (!isFinishing) {
+                forceSubmitSecondsLeft = 30
+                forceSubmitInitialized = false
+                finishQuiz()
             }
         },
         onDismissSubmitError = { submitError = null },
         onDismissExitDialog = { showExitDialog = false },
         onConfirmExit = {
             showExitDialog = false
+            isFinishing = true
             navController.popBackStack()
         },
         onRetry = {
+            isSubmitting = false
+            submitError = null
+            isFinishing = false
+            forceSubmitSecondsLeft = 30
+            forceSubmitInitialized = false
             if (topicId != null) {
-                viewModel.loadQuizByTopic(topicId, limit)
+                viewModel.loadQuizByTopic(topicId, effectiveLimit)
             } else {
-                viewModel.loadQuiz(courseId, limit)
+                viewModel.loadQuiz(courseId, effectiveLimit)
             }
         },
         modifier = modifier
@@ -157,6 +247,7 @@ fun PracticeQuizContent(
     isSubmitting: Boolean,
     submitError: String?,
     showExitDialog: Boolean,
+    forceSubmitSecondsLeft: Int,
     onOptionSelected: (Int) -> Unit,
     onPreviousQuestion: () -> Unit,
     onNextQuestion: () -> Unit,
@@ -274,12 +365,21 @@ fun PracticeQuizContent(
                                     color = textColor
                                 )
 
-                                Text(
-                                    text = "${questionTimeLeft}s",
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.Medium,
-                                    color = if (questionTimeLeft <= 10) QuizWrong else textColor
-                                )
+                                Column(horizontalAlignment = Alignment.End) {
+                                    Text(
+                                        text = "${questionTimeLeft}s",
+                                        fontSize = 18.sp,
+                                        fontWeight = FontWeight.Medium,
+                                        color = if (questionTimeLeft <= 10) QuizWrong else textColor
+                                    )
+                                    if (currentQuestionIndex == questions.size - 1) {
+                                        Text(
+                                            text = "Auto submit in ${forceSubmitSecondsLeft}s",
+                                            fontSize = 12.sp,
+                                            color = subTextColor
+                                        )
+                                    }
+                                }
                             }
 
                             Spacer(modifier = Modifier.height(12.dp))
@@ -407,6 +507,14 @@ fun PracticeQuizContent(
                             ) {
                                 CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                             }
+                        }
+                    }
+                } else if (questions.isNotEmpty() && currentQuestionIndex >= questions.size) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            CircularProgressIndicator(color = progressColor)
+                            Spacer(modifier = Modifier.height(12.dp))
+                            Text("Submitting...", color = textColor)
                         }
                     }
                 }
@@ -553,6 +661,7 @@ fun PracticeQuizScreenPreview() {
             isSubmitting = false,
             submitError = null,
             showExitDialog = false,
+            forceSubmitSecondsLeft = 30,
             onOptionSelected = {},
             onPreviousQuestion = {},
             onNextQuestion = {},
@@ -592,6 +701,7 @@ fun PracticeQuizScreenDarkPreview() {
             isSubmitting = false,
             submitError = null,
             showExitDialog = false,
+            forceSubmitSecondsLeft = 30,
             onOptionSelected = {},
             onPreviousQuestion = {},
             onNextQuestion = {},

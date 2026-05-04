@@ -59,7 +59,6 @@ import androidx.compose.material3.IconButton
 import coil.compose.AsyncImage
 import com.avinashpatil.app.dishacomputer.ui.theme.*
 
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
@@ -68,19 +67,30 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextButton
 import com.avinashpatil.app.dishacomputer.viewmodel.ModernDishaAIViewModel
 import com.avinashpatil.app.dishacomputer.data.model.ChatMessage
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun ModernDishaAIScreen(
-    viewModel: ModernDishaAIViewModel = viewModel()
+    viewModel: ModernDishaAIViewModel = hiltViewModel()
 ) {
     // State
     var chatInput by remember { mutableStateOf("") }
-    var isTyping by remember { mutableStateOf(false) }
     var showClearDialog by remember { mutableStateOf(false) }
-    val messages by viewModel.messages.collectAsState()
-    
-    // Internalized Theme Detection
-    val isDarkTheme = MaterialTheme.colorScheme.background.luminance() < 0.5f
+    val uiState by viewModel.uiState.collectAsState()
+    val messages = uiState.messages
+    val isTyping = uiState.isStreaming
+    val errorMessage = uiState.errorMessage
+
+    if (errorMessage != null) {
+        AlertDialog(
+            onDismissRequest = viewModel::dismissError,
+            title = { Text("Something went wrong") },
+            text = { Text(errorMessage) },
+            confirmButton = {
+                TextButton(onClick = viewModel::dismissError) { Text("OK") }
+            }
+        )
+    }
 
     ModernDishaAIScreenContent(
         messages = messages,
@@ -91,9 +101,7 @@ fun ModernDishaAIScreen(
         onChatInputChange = { chatInput = it },
         onSend = {
             if (chatInput.isNotBlank()) {
-                viewModel.sendMessage(chatInput) { typing ->
-                    isTyping = typing
-                }
+                viewModel.sendMessage(chatInput)
                 chatInput = ""
             }
         },
