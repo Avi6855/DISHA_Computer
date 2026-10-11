@@ -22,7 +22,7 @@ ranking, and a built-in **DISHA AI** study assistant. 100% Kotlin + Jetpack Comp
 | What you want | Proof in this repo |
 |---|---|
 | Kotlin + Jetpack Compose, Material 3 | 20 Compose screen files in `screens/` (~9.4k lines) |
-| Coroutines & Flow, MVVM | 12 ViewModels using `StateFlow` / `MutableStateFlow` + `viewModelScope` |
+| Coroutines & Flow, MVVM | 13 ViewModels using `StateFlow` / `MutableStateFlow` + `viewModelScope` |
 | Dagger Hilt + Retrofit + Room | `di/NetworkModule.kt`, `di/DatabaseModule.kt`, **35 REST endpoints**, 5 Room entities + 5 DAOs |
 | Real authentication | JWT **access + refresh** tokens in DataStore (`TokenManager`), `AuthInterceptor` + `TokenAuthenticator` (`okhttp3.Authenticator`) |
 | Anti-cheat exam engine | Total + per-question `CountDownTimer`, **CameraX front-camera monitoring**, app-switch / back-press force-submit counters |
@@ -30,7 +30,7 @@ ranking, and a built-in **DISHA AI** study assistant. 100% Kotlin + Jetpack Comp
 | Ships to real users | Published on **Google Play**, `versionName 3.0.0` / `versionCode 4` (Mar 2026 update) |
 | Testing mindset (TDD) | 27 JVM unit tests in `app/src/test/` — `./gradlew :app:testDebugUnitTest` |
 
-**Scale:** 84 Kotlin files · ~14.9k lines · 20 Compose screen files (17 wired routes) · 35 API endpoints · 6 repositories · 12 ViewModels · 5 Room entities.
+**Scale:** 87 Kotlin files · ~15.1k lines · 20 Compose screen files (17 wired routes) · 35 API endpoints · 7 repositories · 13 ViewModels · 5 Room entities.
 
 ## 📱 Screenshots
 
@@ -133,10 +133,10 @@ The base URL is defined in `api/RetrofitClient.kt`; the app talks to the institu
 
 | Suite | What it pins down |
 |---|---|
-| `ConvertersTest` (5) | Room type converters for the enum/date payloads in the offline cache |
+| `ConvertersTest` (5) | JSON round trips for the cached string, batch and quiz-question lists, including empty and null payloads |
 | `ErrorUtilsTest` (5) | Friendly message mapping for HTTP, timeout and DNS failures |
-| `ExamRepositoryTest` (8) | Exam result fetching and submission handling |
-| `OpenRouterApiServiceTest` (9) | DISHA AI request/response shape, and the retry path |
+| `ExamRepositoryTest` (8) | Exam results served from the local cache or the backend, failure/status reporting, and the leaderboard fetch |
+| `OpenRouterApiServiceTest` (9) | DISHA AI streaming: SSE delta order, non-streaming answers, provider/HTTP errors and the missing-key fast fail |
 
 ```bash
 ./gradlew :app:testDebugUnitTest
