@@ -7,6 +7,7 @@
 ![Room](https://img.shields.io/badge/Room-Offline_cache-FF6F00?logo=sqlite&logoColor=white)
 ![Version](https://img.shields.io/badge/version-3.0.0-blue)
 ![Play Store](https://img.shields.io/badge/Google_Play-live-brightgreen?logo=googleplay&logoColor=white)
+![Tests](https://img.shields.io/badge/Unit_Tests-27_passing-brightgreen?logo=junit5&logoColor=white)
 
 The official **student app of DISHA Computer Education, Haladi** — institute courses and topics, topic-wise
 **practice quizzes**, scheduled **certification exams with strict anti-cheat rules**, result review,
@@ -27,6 +28,7 @@ ranking, and a built-in **DISHA AI** study assistant. 100% Kotlin + Jetpack Comp
 | Anti-cheat exam engine | Total + per-question `CountDownTimer`, **CameraX front-camera monitoring**, app-switch / back-press force-submit counters |
 | Offline-friendly data layer | Topics and quizzes exposed as Room `Flow`s (`TopicsDao`, `QuizDao`) and refreshed from the API; answer sheets persisted locally via `ExamAnswerDao` |
 | Ships to real users | Published on **Google Play**, `versionName 3.0.0` / `versionCode 4` (Mar 2026 update) |
+| Testing mindset (TDD) | 27 JVM unit tests in `app/src/test/` — `./gradlew :app:testDebugUnitTest` |
 
 **Scale:** 84 Kotlin files · ~14.9k lines · 20 Compose screen files (17 wired routes) · 35 API endpoints · 6 repositories · 12 ViewModels · 5 Room entities.
 
@@ -125,6 +127,21 @@ app/src/main/java/com/avinashpatil/app/dishacomputer/
 
 The base URL is defined in `api/RetrofitClient.kt`; the app talks to the institute's own REST backend.
 
+## 🧪 Tests
+
+27 JVM unit tests cover the parts of the app that are pure logic, so no emulator is needed:
+
+| Suite | What it pins down |
+|---|---|
+| `ConvertersTest` (5) | Room type converters for the enum/date payloads in the offline cache |
+| `ErrorUtilsTest` (5) | Friendly message mapping for HTTP, timeout and DNS failures |
+| `ExamRepositoryTest` (8) | Exam result fetching and submission handling |
+| `OpenRouterApiServiceTest` (9) | DISHA AI request/response shape, and the retry path |
+
+```bash
+./gradlew :app:testDebugUnitTest
+```
+
 ## 🚀 Build & run
 
 Requirements: **Android Studio (latest)**, **JDK 11**, Android SDK with **compileSdk 35**, a device/emulator on **API 29+**.
@@ -134,7 +151,8 @@ git clone https://github.com/Avi6855/DISHA_Computer.git
 cd DISHA_Computer
 # optional: enable the AI assistant locally
 echo "OPENROUTER_API_KEY=your_key_here" >> local.properties   # local.properties is gitignored
-./gradlew :app:assembleDebug
+./gradlew :app:assembleDebug   # build the debug APK
+./gradlew :app:testDebugUnitTest   # run the 27 unit tests
 ```
 
 Notes:
@@ -153,8 +171,8 @@ Notes:
   exist, so the next step is to bind the screen to the API and drop the sample data.
 - **Cleartext HTTP to the institute server** (`android:usesCleartextTraffic="true"`) — should move to HTTPS
   and a configurable base URL before any wider release.
-- **Tests are still the generated templates** (`ExampleUnitTest`, `ExampleInstrumentedTest`) — quiz/timer/
-  repository logic is the obvious first target for real unit tests.
+- **Instrumented tests are still the generated template** — `ExampleInstrumentedTest` is a placeholder, so the
+  exam timers, camera monitoring and other UI flows are only covered by unit tests today.
 - **HTML design mockups are committed inside the source tree** — 10 `.html` files (e.g. `screens/home/index.html`,
   `screens/profile/ModernProfileScreen.html`) sit beside the Compose screens; moving them to a `design/`
   folder or removing them would keep the module clean. `screens/bill/DummyData.kt` is also fully commented out.
