@@ -20,39 +20,36 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.avinashpatil.app.dishacomputer.data.ranking.RankingItem
 import com.avinashpatil.app.dishacomputer.ui.theme.*
+import com.avinashpatil.app.dishacomputer.viewmodel.RankingUiState
+import com.avinashpatil.app.dishacomputer.viewmodel.RankingViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RankingScreen(navController: NavController) {
+fun RankingScreen(
+    navController: NavController,
+    viewModel: RankingViewModel
+) {
     var searchQuery by remember { mutableStateOf("") }
+    val uiState by viewModel.uiState.collectAsState()
 
-    val rankings = remember {
-        listOf(
-            RankingItem(1, "https://storage.googleapis.com/a1aa/image/5pDz2nMCiRSBnJWlBiSNrESVHVPf5yRm-I5ASKFbKdI.jpg", "DISHA COMPUTER EDUCATION HALADI", 16847),
-            RankingItem(2, "https://storage.googleapis.com/a1aa/image/dkfNX5sNdpxJMZ_cbjsMqUcDNxd2VNAsG6SivUAsFyk.jpg", "AVINASH RAJENDRA PATIL", 15902),
-            RankingItem(3, "https://storage.googleapis.com/a1aa/image/5pDz2nMCiRSBnJWlBiSNrESVHVPf5yRm-I5ASKFbKdI.jpg", "ANIRUDDHA RAJENDRA PATIL", 15000),
-            RankingItem(4, "https://storage.googleapis.com/a1aa/image/5pDz2nMCiRSBnJWlBiSNrESVHVPf5yRm-I5ASKFbKdI.jpg", "VARAD SANDIP PATIL", 16847),
-            RankingItem(5, "https://storage.googleapis.com/a1aa/image/dkfNX5sNdpxJMZ_cbjsMqUcDNxd2VNAsG6SivUAsFyk.jpg", "AVISHKAR SARJEARO DEVKAR", 15902),
-            RankingItem(6, "https://storage.googleapis.com/a1aa/image/5pDz2nMCiRSBnJWlBiSNrESVHVPf5yRm-I5ASKFbKdI.jpg", "AMEY TANAJI BHAVAD", 15000),
-            RankingItem(7, "https://storage.googleapis.com/a1aa/image/5pDz2nMCiRSBnJWlBiSNrESVHVPf5yRm-I5ASKFbKdI.jpg", "AVADHUT PRAKASH PATIL", 16847),
-            RankingItem(8, "https://storage.googleapis.com/a1aa/image/dkfNX5sNdpxJMZ_cbjsMqUcDNxd2VNAsG6SivUAsFyk.jpg", "VISHAL SAMBHAJI PATIL", 15902),
-            RankingItem(9, "https://storage.googleapis.com/a1aa/image/5pDz2nMCiRSBnJWlBiSNrESVHVPf5yRm-I5ASKFbKdI.jpg", "KARTIK RAVINDRA PATIL", 15000),
-            RankingItem(10, "https://storage.googleapis.com/a1aa/image/5pDz2nMCiRSBnJWlBiSNrESVHVPf5yRm-I5ASKFbKdI.jpg", "PRATIK RAVINDRA PATIL", 16847),
-            RankingItem(11, "https://storage.googleapis.com/a1aa/image/dkfNX5sNdpxJMZ_cbjsMqUcDNxd2VNAsG6SivUAsFyk.jpg", "AKASH SAMBHAJI PATIL", 15902),
-            RankingItem(12, "https://storage.googleapis.com/a1aa/image/5pDz2nMCiRSBnJWlBiSNrESVHVPf5yRm-I5ASKFbKdI.jpg", "NAYAN DATTATRAY PATIL", 15000),
-            RankingItem(13, "https://storage.googleapis.com/a1aa/image/5pDz2nMCiRSBnJWlBiSNrESVHVPf5yRm-I5ASKFbKdI.jpg", "ASHISH ASHOK PATIL", 16847),
-            RankingItem(14, "https://storage.googleapis.com/a1aa/image/dkfNX5sNdpxJMZ_cbjsMqUcDNxd2VNAsG6SivUAsFyk.jpg", "HARSHVARDHAN BHAGWAN DHENGE", 15902),
-            RankingItem(15, "https://storage.googleapis.com/a1aa/image/5pDz2nMCiRSBnJWlBiSNrESVHVPf5yRm-I5ASKFbKdI.jpg", "NIKHIL METIL", 15000),
-            RankingItem(16, "https://storage.googleapis.com/a1aa/image/5pDz2nMCiRSBnJWlBiSNrESVHVPf5yRm-I5ASKFbKdI.jpg", "VISHWAJEET ASOK MAGDUM", 16847),
-            RankingItem(17, "https://storage.googleapis.com/a1aa/image/dkfNX5sNdpxJMZ_cbjsMqUcDNxd2VNAsG6SivUAsFyk.jpg", "PRATHMESH DATTATRAY PATIL", 15902),
-            RankingItem(18, "https://storage.googleapis.com/a1aa/image/5pDz2nMCiRSBnJWlBiSNrESVHVPf5yRm-I5ASKFbKdI.jpg", "MAYURESH VISHWAS PATIL", 15000),
-        )
+    // Rows come from GET api/leaderboard (RankingViewModel -> ExamRepository).
+    val rankings = when (val state = uiState) {
+        is RankingUiState.Success -> state.users.map { user ->
+            RankingItem(
+                rank = user.rank,
+                imageUrl = "",
+                name = user.fullName,
+                score = user.score
+            )
+        }
+        else -> emptyList()
     }
 
     val gradients = listOf(
@@ -178,12 +175,69 @@ fun RankingScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                LazyColumn {
-                    items(filteredRankings) { ranking ->
-                        RankingListItem(
-                            ranking = ranking,
-                            gradient = gradients[ranking.rank.minus(1) % gradients.size]
+                when (val state = uiState) {
+                    is RankingUiState.Loading -> Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 32.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(color = RankOrange)
+                    }
+
+                    is RankingUiState.Error -> Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = state.message,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.error,
+                            textAlign = TextAlign.Center
                         )
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Button(
+                            onClick = { viewModel.loadLeaderboard() },
+                            colors = ButtonDefaults.buttonColors(containerColor = RankOrange)
+                        ) {
+                            Text("Retry")
+                        }
+                    }
+
+                    is RankingUiState.Success -> {
+                        if (filteredRankings.isEmpty()) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 32.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = if (searchQuery.isBlank()) {
+                                        "No rankings available yet."
+                                    } else {
+                                        "No student matches \"$searchQuery\"."
+                                    },
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                        } else {
+                            LazyColumn {
+                                items(filteredRankings) { ranking ->
+                                    RankingListItem(
+                                        ranking = ranking,
+                                        gradient = gradients[
+                                            (ranking.rank - 1).coerceAtLeast(0) %
+                                                gradients.size
+                                        ]
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -209,14 +263,32 @@ fun RankingListItem(ranking: RankingItem, gradient: Brush) {
             color = MaterialTheme.colorScheme.onSurface
         )
 
-        AsyncImage(
-            model = ranking.imageUrl,
-            contentDescription = "Profile image of ${ranking.name}",
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape),
-            contentScale = ContentScale.Crop
-        )
+        if (ranking.imageUrl.isBlank()) {
+            // The backend leaderboard has no avatar URL, so show the student's initial.
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.surface),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = ranking.name.trim().take(1).uppercase(),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        } else {
+            AsyncImage(
+                model = ranking.imageUrl,
+                contentDescription = "Profile image of ${ranking.name}",
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
+            )
+        }
 
         Text(
             text = ranking.name,

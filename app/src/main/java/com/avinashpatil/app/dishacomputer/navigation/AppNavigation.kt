@@ -22,6 +22,7 @@ import com.avinashpatil.app.dishacomputer.screens.exam.ExamScreen
 import com.avinashpatil.app.dishacomputer.screens.home.EnhancedHomeScreen
 import com.avinashpatil.app.dishacomputer.viewmodel.MainViewModel
 import com.avinashpatil.app.dishacomputer.viewmodel.ModernProfileViewModel
+import com.avinashpatil.app.dishacomputer.viewmodel.RankingViewModel
 import com.avinashpatil.app.dishacomputer.screens.quiz.FinalExamScreen
 import com.avinashpatil.app.dishacomputer.screens.quiz.QuizScreen
 import com.avinashpatil.app.dishacomputer.screens.splash.SplashScreen
@@ -242,7 +243,11 @@ fun AppNavigation() {
             }
 
             composable(Screen.Rank.route) {
-                RankingScreen(navController)
+                val rankingViewModel: RankingViewModel = hiltViewModel()
+                RankingScreen(
+                    navController = navController,
+                    viewModel = rankingViewModel
+                )
             }
 
             composable(Screen.Topics.route) {

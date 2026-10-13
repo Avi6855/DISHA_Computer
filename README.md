@@ -7,7 +7,7 @@
 ![Room](https://img.shields.io/badge/Room-Offline_cache-FF6F00?logo=sqlite&logoColor=white)
 ![Version](https://img.shields.io/badge/version-3.0.0-blue)
 ![Play Store](https://img.shields.io/badge/Google_Play-live-brightgreen?logo=googleplay&logoColor=white)
-![Tests](https://img.shields.io/badge/Unit_Tests-27_passing-brightgreen?logo=junit5&logoColor=white)
+![Android CI](https://github.com/Avi6855/DISHA_Computer/actions/workflows/android-ci.yml/badge.svg)
 
 The official **student app of DISHA Computer Education, Haladi** — institute courses and topics, topic-wise
 **practice quizzes**, scheduled **certification exams with strict anti-cheat rules**, result review,
@@ -28,6 +28,7 @@ ranking, and a built-in **DISHA AI** study assistant. 100% Kotlin + Jetpack Comp
 | Anti-cheat exam engine | Total + per-question `CountDownTimer`, **CameraX front-camera monitoring**, app-switch / back-press force-submit counters |
 | Offline-friendly data layer | Topics and quizzes exposed as Room `Flow`s (`TopicsDao`, `QuizDao`) and refreshed from the API; answer sheets persisted locally via `ExamAnswerDao` |
 | Ships to real users | Published on **Google Play**, `versionName 3.0.0` / `versionCode 4` (Mar 2026 update) |
+| Real leaderboard data | `GET api/leaderboard` via `RankingViewModel` → `ExamRepository` (no sample rows) |
 | Testing mindset (TDD) | 27 JVM unit tests in `app/src/test/` — `./gradlew :app:testDebugUnitTest` |
 
 **Scale:** 87 Kotlin files · ~15.1k lines · 20 Compose screen files (17 wired routes) · 35 API endpoints · 7 repositories · 13 ViewModels · 5 Room entities.
@@ -57,7 +58,8 @@ ranking, and a built-in **DISHA AI** study assistant. 100% Kotlin + Jetpack Comp
 - **📊 Results & review** — separate result screens for practice and certification exams with score,
   correct/wrong/skipped stats and an animated circular score indicator; the certification result screen
   adds a per-question review section with correct/incorrect highlighting.
-- **🏆 Ranking** — a ranked table (rank, avatar, student name, score) with a name search field.
+- **🏆 Ranking** — the live leaderboard from `GET api/leaderboard` (rank, student initial, name, score)
+  rendered by `RankingViewModel`, with a name search field plus loading, error and retry states.
 - **🤖 DISHA AI** — in-app chat assistant (OpenRouter chat-completions, `openai/gpt-oss-120b:free`) with
   conversation history, error surfacing and **retry with exponential backoff** (up to 10 attempts).
 - **👤 Profile** — live user profile from the API/Room cache, profile-image picking, course details,
@@ -166,9 +168,6 @@ Notes:
 
 ## 🧭 Roadmap / known gaps (honest list)
 
-- **Ranking screen currently renders sample rows** (`screens/ranking/RankingScreen.kt` holds 18 hardcoded
-  `RankingItem`s with real names/avatars) — the `GET api/leaderboard` endpoint and `LeaderboardUser` model
-  exist, so the next step is to bind the screen to the API and drop the sample data.
 - **Cleartext HTTP to the institute server** (`android:usesCleartextTraffic="true"`) — should move to HTTPS
   and a configurable base URL before any wider release.
 - **Instrumented tests are still the generated template** — `ExampleInstrumentedTest` is a placeholder, so the
